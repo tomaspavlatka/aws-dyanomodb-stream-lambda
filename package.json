@@ -1,0 +1,26 @@
+{
+  "name": "aws-dyanomodb-stream-lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomaspavlatka/aws-dyanomodb-stream-lambda.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/tomaspavlatka/aws-dyanomodb-stream-lambda/issues"
+  },
+  "homepage": "https://github.com/tomaspavlatka/aws-dyanomodb-stream-lambda#readme",
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.147",
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2"
+  }
+}

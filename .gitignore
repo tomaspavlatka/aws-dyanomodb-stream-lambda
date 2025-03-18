@@ -1,0 +1,39 @@
+# Node.js dependencies
+node_modules/
+package-lock.json
+bun.lockb
+
+# TypeScript build artifacts
+dist/
+data/
+*.js
+*.js.map
+*.d.ts
+*.d.ts.map
+
+# Logs and OS files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Vim/Neovim swap & backup files
+*.swp
+*.swo
+*.swn
+*.un~
+*~
+
+# Neovim LSP / cache directories
+.cache/
+.ccls-cache/
+ccls-cache/
+
+# Jest coverage reports
+coverage/
+
+# Editor-specific files
+.vscode/
+.idea/
+*.DS_Store
