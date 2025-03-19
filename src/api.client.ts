@@ -1,5 +1,9 @@
-import axios, { AxiosHeaders, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-
+import axios, {
+  AxiosHeaders,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from "axios";
 
 export class ApiClient {
   private client: AxiosInstance;
@@ -7,12 +11,16 @@ export class ApiClient {
   constructor(
     private readonly baseUrl: string,
     private readonly headers: AxiosHeaders,
-    private readonly authToken: string
+    private readonly authToken: string,
   ) {
     this.client = this.createClient();
   }
 
-  async request<T>(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', data?: any): Promise<T> {
+  async request<T>(
+    url: string,
+    method: "GET" | "POST" | "PUT" | "DELETE",
+    data?: any,
+  ): Promise<T> {
     const response: AxiosResponse<T> = await this.client({
       method,
       url,
@@ -20,7 +28,7 @@ export class ApiClient {
     });
 
     return response.data;
-  };
+  }
 
   private createClient(): AxiosInstance {
     const config: AxiosRequestConfig = {
@@ -28,9 +36,8 @@ export class ApiClient {
       headers: {
         ...this.headers,
         Authorization: `Bearer ${this.authToken}`,
-      }
-      ,
-    }
+      },
+    };
 
     return axios.create(config);
   }

@@ -7,7 +7,7 @@ export class Config {
     const value = process.env[key];
 
     return value === undefined
-      ? Either.left(MissingValueException.create(`config:${key}`, ''))
+      ? Either.left(MissingValueException.create(`config:${key}`, ""))
       : Either.right(value);
   }
 }

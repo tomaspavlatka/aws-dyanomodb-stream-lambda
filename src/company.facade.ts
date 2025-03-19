@@ -3,9 +3,11 @@ import { CompanyNotFoundException } from "./exceptions/company-not-found.excepti
 import { ContextAwareException } from "./exceptions/context-aware.exception";
 
 export class CompanyFacade {
-  constructor(private profiles: CompanyProfile[]) { }
+  constructor(private profiles: CompanyProfile[]) {}
 
-  async getProfile(companyId: string): Promise<Either<ContextAwareException, CompanyProfile>> {
+  async getProfile(
+    companyId: string,
+  ): Promise<Either<ContextAwareException, CompanyProfile>> {
     const profile = this.profiles.find((profile) => profile.id === companyId);
 
     return profile !== undefined

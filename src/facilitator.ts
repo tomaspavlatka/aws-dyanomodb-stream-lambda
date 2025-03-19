@@ -10,27 +10,33 @@ import { PersistenceFacade } from "./persistence.facade";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
 type EasybillConfig = {
-  baseUrl: string
-  authToken: string
-}
+  baseUrl: string;
+  authToken: string;
+};
 
 type PersistenceConfig = {
-  region: string
-  tableName: string
-}
+  region: string;
+  tableName: string;
+};
 
 export class Facilitator {
   private getEasybillFacade(): Either<ContextAwareException, EasybillFacade> {
     return this.getEasybillConfig()
       .bind((config) => {
-        return Either.right(new ApiClient(config.baseUrl, new AxiosHeaders(), config.authToken))
-      }).bind((apiClient) => Either.right(new EasybillFacade(apiClient)));
+        return Either.right(
+          new ApiClient(config.baseUrl, new AxiosHeaders(), config.authToken),
+        );
+      })
+      .bind((apiClient) => Either.right(new EasybillFacade(apiClient)));
   }
 
   private getEasybillConfig(): Either<ContextAwareException, EasybillConfig> {
-    return Config.get('EASYBILL_BASE_URL').bind((baseUrl) =>
-      Config.get('EASYBILL_AUTH_TOKEN').mapRight((authToken) => ({ authToken, baseUrl })
-      ));
+    return Config.get("EASYBILL_BASE_URL").bind((baseUrl) =>
+      Config.get("EASYBILL_AUTH_TOKEN").mapRight((authToken) => ({
+        authToken,
+        baseUrl,
+      })),
+    );
   }
 
   private getCompanyFacade(): Either<ContextAwareException, CompanyFacade> {
@@ -38,14 +44,17 @@ export class Facilitator {
     // pull this data from the company service API
     const profiles: CompanyProfile[] = [];
     profiles.push({
-      id: 'customer_01',
-      easybillCustomerId: '2322507260'
+      id: "customer_01",
+      easybillCustomerId: "2322507260",
     });
 
     return Either.right(new CompanyFacade(profiles));
   }
 
-  private getPersistenceFacade(): Either<ContextAwareException, PersistenceFacade> {
+  private getPersistenceFacade(): Either<
+    ContextAwareException,
+    PersistenceFacade
+  > {
     return this.getPersistenceConfig().mapRight((config) => {
       const dbClient = new DynamoDBClient({ region: config.region });
 
@@ -53,10 +62,16 @@ export class Facilitator {
     });
   }
 
-  private getPersistenceConfig(): Either<ContextAwareException, PersistenceConfig> {
-    return Config.get('PERSISTENCE_REGION').bind((region) =>
-      Config.get('PERSISTENCE_TABLE_NAME').mapRight((tableName) => ({ region, tableName })
-      ));
+  private getPersistenceConfig(): Either<
+    ContextAwareException,
+    PersistenceConfig
+  > {
+    return Config.get("PERSISTENCE_REGION").bind((region) =>
+      Config.get("PERSISTENCE_TABLE_NAME").mapRight((tableName) => ({
+        region,
+        tableName,
+      })),
+    );
   }
 
   getBillableHandler(): Either<ContextAwareException, BillableHandler> {
@@ -80,7 +95,7 @@ export class Facilitator {
         companyFacade.getRight(),
         easybillFacade.getRight(),
         persistenceFacade.getRight(),
-      )
+      ),
     );
   }
 }
