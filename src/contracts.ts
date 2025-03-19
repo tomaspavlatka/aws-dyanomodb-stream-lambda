@@ -4,6 +4,7 @@ type CompanyProfile = {
 }
 
 type Billable = {
+  id: string;
   companyId: string,
   externalId: string;
   payable: Payable[],
@@ -17,11 +18,13 @@ type Payable = {
 
 type Invoice = {
   id: string,
+  customer_id: string,
+  type: 'INVOICE',
   items: InvoiceItem[]
 }
 
 type InvoiceItem = {
   description: string,
   quantity: number,
-  item_price_net: number,
+  single_price_net: number,
 }

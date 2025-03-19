@@ -1,26 +1,14 @@
 import type { DynamoDBStreamEvent } from 'aws-lambda'
-import { BillableHandler } from './billable.handler'
-import { CompanyFacade } from './company.facade';
-import { PersistanceFacade } from './persistance.facade';
-import { EasybillFacade } from './easybill.facade';
+import { Facilitator } from './facilitator';
 
 export const handler = async (event: DynamoDBStreamEvent) => {
-  // Manually adding profiles relations before we are able to
-  // pull this data from the company service API
-  const profiles: CompanyProfile[] = [];
-  profiles.push({
-    id: 'customer_01',
-    easybill_customer_id: '2322507260'
-  });
-  const companyFacade = new CompanyFacade(profiles);
-
-  const persistanceFacade = new PersistanceFacade();
-  const easybillFacade = new EasybillFacade();
-  const handler = new BillableHandler(
-    companyFacade, easybillFacade, persistanceFacade
-  );
+  const facilitator = new Facilitator();
+  const handler = facilitator.getBillableHandler();
+  if (handler.isLeft()) {
+    throw new Error(`Failed to bootstrap the lambda function due to: ${handler.getLeft()}`);
+  }
 
   for (const record of event.Records) {
-    await handler.handle(record)
+    await handler.getRight().handle(record)
   }
 }
