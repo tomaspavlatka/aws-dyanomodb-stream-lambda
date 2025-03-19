@@ -3,7 +3,6 @@ import type { DynamoDBStreamEvent } from 'aws-lambda';
 import { Facilitator } from './common/facilitator';
 import { ErrorCode } from './exceptions/error-code.enum';
 
-
 export const handler = async (event: DynamoDBStreamEvent) => {
   const facilitator = new Facilitator();
   const handler = facilitator.getBillableHandler();

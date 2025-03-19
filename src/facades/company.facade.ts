@@ -4,7 +4,7 @@ import { CompanyNotFoundException } from '../exceptions/company-not-found.except
 import { ContextAwareException } from '../exceptions/context-aware.exception';
 
 export class CompanyFacade {
-  // To speed up the process, we will hardcode the relations 
+  // To speed up the process, we will hardcode the relations
   // between company_id and easybill_customer_id here.
   // We will revisit this place once the endpoint within company service is ready
   // and retrieve data from there

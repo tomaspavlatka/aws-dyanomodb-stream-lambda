@@ -21,9 +21,11 @@ export class BillableHandler {
     private companyFacade: CompanyFacade,
     private easybillFacade: EasybillFacade,
     private persistenceFacade: PersistenceFacade,
-  ) { }
+  ) {}
 
-  async handle(record: DynamoDBRecord): Promise<Either<ContextAwareException, null>> {
+  async handle(
+    record: DynamoDBRecord,
+  ): Promise<Either<ContextAwareException, null>> {
     return (
       await (
         await (
