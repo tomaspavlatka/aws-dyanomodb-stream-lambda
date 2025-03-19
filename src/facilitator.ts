@@ -5,12 +5,18 @@ import { EasybillFacade } from "./easybill.facade";
 import { Either } from "./either";
 import { ContextAwareException } from "./exceptions/context-aware.exception";
 import { CompanyFacade } from "./company.facade";
-import { PersistanceFacade } from "./persistance.facade";
 import { BillableHandler } from "./billable.handler";
+import { PersistenceFacade } from "./persistence.facade";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
 type EasybillConfig = {
   baseUrl: string
   authToken: string
+}
+
+type PersistenceConfig = {
+  region: string
+  tableName: string
 }
 
 export class Facilitator {
@@ -33,14 +39,24 @@ export class Facilitator {
     const profiles: CompanyProfile[] = [];
     profiles.push({
       id: 'customer_01',
-      easybill_customer_id: '2322507260'
+      easybillCustomerId: '2322507260'
     });
 
     return Either.right(new CompanyFacade(profiles));
   }
 
-  private getPersistanceFacade(): Either<ContextAwareException, PersistanceFacade> {
-    return Either.right(new PersistanceFacade());
+  private getPersistenceFacade(): Either<ContextAwareException, PersistenceFacade> {
+    return this.getPersistenceConfig().mapRight((config) => {
+      const dbClient = new DynamoDBClient({ region: config.region });
+
+      return new PersistenceFacade(dbClient, config.tableName);
+    });
+  }
+
+  private getPersistenceConfig(): Either<ContextAwareException, PersistenceConfig> {
+    return Config.get('PERSISTENCE_REGION').bind((region) =>
+      Config.get('PERSISTENCE_TABLE_NAME').mapRight((tableName) => ({ region, tableName })
+      ));
   }
 
   getBillableHandler(): Either<ContextAwareException, BillableHandler> {
@@ -54,16 +70,16 @@ export class Facilitator {
       return Either.left(easybillFacade.getLeft());
     }
 
-    const persistanceFacade = this.getPersistanceFacade();
-    if (persistanceFacade.isLeft()) {
-      return Either.left(persistanceFacade.getLeft());
+    const persistenceFacade = this.getPersistenceFacade();
+    if (persistenceFacade.isLeft()) {
+      return Either.left(persistenceFacade.getLeft());
     }
 
     return Either.right(
       new BillableHandler(
         companyFacade.getRight(),
         easybillFacade.getRight(),
-        persistanceFacade.getRight(),
+        persistenceFacade.getRight(),
       )
     );
   }

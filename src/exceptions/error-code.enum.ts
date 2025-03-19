@@ -3,4 +3,5 @@ export enum ErrorCode {
   CompanyNotFound = 2004,
   MissingValue = 1000,
   NotImplemented = 9000,
+  PersistenceLayerError = 5000,
 }

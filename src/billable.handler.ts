@@ -3,7 +3,7 @@ import { isEligible } from "./validator";
 import { toBillable as mapperToBillable } from "./mapper";
 import { CompanyFacade } from "./company.facade";
 import { EasybillFacade } from "./easybill.facade";
-import { PersistanceFacade } from "./persistance.facade";
+import { PersistenceFacade } from "./persistence.facade";
 import { ErrorCode } from "./exceptions/error-code.enum";
 
 type Context = {
@@ -17,11 +17,10 @@ export class BillableHandler {
   constructor(
     private companyFacade: CompanyFacade, 
     private easybillFacade: EasybillFacade,
-    private persistanceFacade: PersistanceFacade,
+    private persistenceFacade: PersistenceFacade,
   ) { }
 
   async handle(record: DynamoDBRecord) {
-    console.log('processing event-id:', record.eventID);
     const data = (await
       (await 
         (await 
@@ -47,14 +46,12 @@ export class BillableHandler {
       console.error('error', JSON.stringify(data.getLeft()));
     }
 
-    console.log('processing', JSON.stringify(data));
-
     console.log('processed');
   }
 
   private async saveEasybillId(ctx: Context) {
     // TODO: Figure out what we get back from the dynamodb update
-    return (await this.persistanceFacade.markAsCreated(ctx.billable!, ctx.invoice!))
+    return (await this.persistenceFacade.markAsCreated(ctx.billable!, ctx.invoice!))
       .mapRight(() => ctx);
   }
 

@@ -4,6 +4,9 @@ import { ContextAwareException } from "./exceptions/context-aware.exception";
 
 type InvoiceDraft = Omit<Invoice, 'id'>;
 
+// TODO: See what VAT we need to apply
+const DEFAULT_VAT_PERCENT = 0;
+
 export class EasybillFacade {
   constructor(private readonly apiClient: ApiClient) { }
 
@@ -20,13 +23,13 @@ export class EasybillFacade {
 
   private getDraft(company: CompanyProfile, billable: Billable): Either<ContextAwareException, InvoiceDraft> {
     return Either.right({
-      customer_id: company.easybill_customer_id,
+      customer_id: company.easybillCustomerId,
       type: 'INVOICE',
       items: billable.payable.map((payable) => ({
         description: payable.type,
         quantity: payable.quantity,
-        single_price_net: payable.price * 100, // the price should be in cents
-        vat_percent: 19
+        single_price_net: payable.price * 100,
+        vat_percent: DEFAULT_VAT_PERCENT
       }))
     })
   }

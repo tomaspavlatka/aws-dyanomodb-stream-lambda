@@ -1,6 +1,7 @@
+
 type CompanyProfile = {
   id: string,
-  easybill_customer_id: string,
+  easybillCustomerId: string,
 }
 
 type Billable = {
@@ -16,6 +17,9 @@ type Payable = {
   price: number,
 }
 
+// We need to use snake_case here
+// because easybill expects values in 
+// snake_case format
 type Invoice = {
   id: string,
   customer_id: string,
@@ -23,6 +27,9 @@ type Invoice = {
   items: InvoiceItem[]
 }
 
+// We need to use snake_case here
+// because easybill expects values in 
+// snake_case format
 type InvoiceItem = {
   description: string,
   quantity: number,
