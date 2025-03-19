@@ -1,7 +1,7 @@
 import { DynamoDBRecord } from 'aws-lambda';
 
-import { BillableProcessStatus } from './billable-process-status.enum';
-import { Either } from './either';
+import { BillableProcessStatus } from './common/billable-process-status.enum';
+import { Either } from './common/either';
 import { CanSkipException } from './exceptions/can-skip.exception';
 import { ContextAwareException } from './exceptions/context-aware.exception';
 

@@ -1,15 +1,15 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { AxiosHeaders } from 'axios';
 
-import { ApiClient } from './api.client';
-import { BillableHandler } from './billable.handler';
-import { CompanyFacade } from './company.facade';
-import { Config } from './config';
+import { BillableHandler } from '../billable.handler';
+import { ContextAwareException } from '../exceptions/context-aware.exception';
+import { CompanyFacade } from '../facades/company.facade';
+import { EasybillFacade } from '../facades/easybill.facade';
+import { PersistenceFacade } from '../facades/persistence.facade';
+import { ApiClient } from '../infra/api.client';
+import { Config } from '../infra/config';
 import { CompanyProfile } from './contracts';
-import { EasybillFacade } from './easybill.facade';
 import { Either } from './either';
-import { ContextAwareException } from './exceptions/context-aware.exception';
-import { PersistenceFacade } from './persistence.facade';
 
 type EasybillConfig = {
   authToken: string;

@@ -1,11 +1,11 @@
 import { DynamoDBRecord } from 'aws-lambda';
 
-import { CompanyFacade } from './company.facade';
-import { Billable, CompanyProfile, Invoice } from './contracts';
-import { EasybillFacade } from './easybill.facade';
+import { Billable, CompanyProfile, Invoice } from './common/contracts';
 import { ErrorCode } from './exceptions/error-code.enum';
+import { CompanyFacade } from './facades/company.facade';
+import { EasybillFacade } from './facades/easybill.facade';
+import { PersistenceFacade } from './facades/persistence.facade';
 import { toBillable as mapperToBillable } from './mapper';
-import { PersistenceFacade } from './persistence.facade';
 import { isEligible } from './validator';
 
 type Context = {
@@ -20,7 +20,7 @@ export class BillableHandler {
     private companyFacade: CompanyFacade,
     private easybillFacade: EasybillFacade,
     private persistenceFacade: PersistenceFacade,
-  ) {}
+  ) { }
 
   async handle(record: DynamoDBRecord) {
     const data = await (

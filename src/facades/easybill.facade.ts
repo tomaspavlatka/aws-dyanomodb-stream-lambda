@@ -1,7 +1,7 @@
-import { ApiClient } from './api.client';
-import { Billable, CompanyProfile, Invoice } from './contracts';
-import { Either } from './either';
-import { ContextAwareException } from './exceptions/context-aware.exception';
+import { Billable, CompanyProfile, Invoice } from '../common/contracts';
+import { Either } from '../common/either';
+import { ContextAwareException } from '../exceptions/context-aware.exception';
+import { ApiClient } from '../infra/api.client';
 
 type InvoiceDraft = Omit<Invoice, 'id'>;
 

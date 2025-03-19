@@ -1,6 +1,7 @@
 import type { DynamoDBStreamEvent } from 'aws-lambda';
 
-import { Facilitator } from './facilitator';
+import { Facilitator } from './common/facilitator';
+
 
 export const handler = async (event: DynamoDBStreamEvent) => {
   const facilitator = new Facilitator();
