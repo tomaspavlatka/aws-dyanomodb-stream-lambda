@@ -3,11 +3,12 @@ import {
   ReturnValue,
   UpdateItemCommand,
 } from '@aws-sdk/client-dynamodb';
+
+import { BillableProcessStatus } from './billable-process-status.enum';
+import { Billable, Invoice } from './contracts';
 import { Either } from './either';
 import { ContextAwareException } from './exceptions/context-aware.exception';
-import { NotImplementedException } from './exceptions/not-implemented.exception';
 import { PersistenceLayerException } from './exceptions/persistence-layer.exception';
-import { BillableProcessStatus } from './billable-process-status.enum';
 
 export class PersistenceFacade {
   constructor(

@@ -50,37 +50,4 @@ export class Either<L, R> {
     }
     return Either.left(this.leftValue!);
   }
-
-  mapLeft<T>(fn: (value: L) => T): Either<T, R> {
-    if (this.isLeft()) {
-      return Either.left(fn(this.leftValue!));
-    }
-    return Either.right(this.rightValue!);
-  }
-
-  mapLeftToRight<T>(fn: (value: L) => T): Either<never, R | T> {
-    if (this.isLeft()) {
-      return Either.right(fn(this.leftValue!)); // Map Left to Right
-    }
-    return Either.right(this.rightValue!); // Keep Right as-is
-  }
-
-  mapRightToLeft<T>(fn: (value: R) => T): Either<L | T, never> {
-    if (this.isRight()) {
-      return Either.left(fn(this.rightValue!)); // Map Right to Left
-    }
-    return Either.left(this.leftValue!); // Keep Left as-is
-  }
-
-  static isEither(obj: any): obj is Either<any, any> {
-    return obj instanceof Either;
-  }
-
-  flip(): Either<R, L> {
-    if (this.isRight()) {
-      return Either.left(this.rightValue!); // Right becomes Left
-    }
-
-    return Either.right(this.leftValue!); // Left becomes Right
-  }
 }

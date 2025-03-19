@@ -1,16 +1,18 @@
 import { DynamoDBRecord } from 'aws-lambda';
-import { isEligible } from './validator';
-import { toBillable as mapperToBillable } from './mapper';
+
 import { CompanyFacade } from './company.facade';
+import { Billable, CompanyProfile, Invoice } from './contracts';
 import { EasybillFacade } from './easybill.facade';
-import { PersistenceFacade } from './persistence.facade';
 import { ErrorCode } from './exceptions/error-code.enum';
+import { toBillable as mapperToBillable } from './mapper';
+import { PersistenceFacade } from './persistence.facade';
+import { isEligible } from './validator';
 
 type Context = {
-  record: DynamoDBRecord;
   billable?: Billable;
   companyProfile?: CompanyProfile;
   invoice?: Invoice;
+  record: DynamoDBRecord;
 };
 
 export class BillableHandler {

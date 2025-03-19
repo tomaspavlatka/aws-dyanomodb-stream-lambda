@@ -1,8 +1,9 @@
 import { DynamoDBRecord } from 'aws-lambda';
-import { Either } from './either';
-import { ContextAwareException } from './exceptions/context-aware.exception';
-import { CanSkipException } from './exceptions/can-skip.exception';
+
 import { BillableProcessStatus } from './billable-process-status.enum';
+import { Either } from './either';
+import { CanSkipException } from './exceptions/can-skip.exception';
+import { ContextAwareException } from './exceptions/context-aware.exception';
 
 export const isEligible = (
   record: DynamoDBRecord,

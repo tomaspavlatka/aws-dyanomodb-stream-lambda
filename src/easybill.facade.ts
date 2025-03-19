@@ -1,4 +1,5 @@
 import { ApiClient } from './api.client';
+import { Billable, CompanyProfile, Invoice } from './contracts';
 import { Either } from './either';
 import { ContextAwareException } from './exceptions/context-aware.exception';
 

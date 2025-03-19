@@ -1,35 +1,35 @@
-type CompanyProfile = {
-  id: string;
+export type CompanyProfile = {
   easybillCustomerId: string;
+  id: string;
 };
 
-type Billable = {
-  id: string;
+export type Billable = {
   companyId: string;
   externalId: string;
+  id: string;
   payable: Payable[];
 };
 
-type Payable = {
-  type: string;
-  quantity: number;
+export type Payable = {
   price: number;
+  quantity: number;
+  type: string;
 };
 
 // We need to use snake_case here
 // because easybill expects values in
 // snake_case format
-type Invoice = {
-  id: string;
+export type Invoice = {
   customer_id: string;
-  type: 'INVOICE';
+  id: string;
   items: InvoiceItem[];
+  type: 'INVOICE';
 };
 
 // We need to use snake_case here
 // because easybill expects values in
 // snake_case format
-type InvoiceItem = {
+export type InvoiceItem = {
   description: string;
   quantity: number;
   single_price_net: number;

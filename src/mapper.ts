@@ -1,4 +1,6 @@
 import { DynamoDBRecord } from 'aws-lambda';
+
+import { Billable, Payable } from './contracts';
 import { Either } from './either';
 import { ContextAwareException } from './exceptions/context-aware.exception';
 import { MissingValueException } from './exceptions/missing-value.exception';

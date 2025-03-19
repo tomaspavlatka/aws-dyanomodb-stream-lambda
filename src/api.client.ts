@@ -18,8 +18,8 @@ export class ApiClient {
 
   async request<T>(
     url: string,
-    method: 'GET' | 'POST' | 'PUT' | 'DELETE',
-    data?: any,
+    method: 'DELETE' | 'GET' | 'POST' | 'PUT',
+    data?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
   ): Promise<T> {
     const response: AxiosResponse<T> = await this.client({
       method,
