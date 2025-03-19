@@ -50,4 +50,11 @@ export class Either<L, R> {
     }
     return Either.left(this.leftValue!);
   }
+
+  mapLeft<T>(fn: (value: L) => T): Either<T, R> {
+    if (this.isLeft()) {
+      return Either.left(fn(this.leftValue!));
+    }
+    return Either.right(this.rightValue!);
+  }
 }

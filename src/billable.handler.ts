@@ -1,7 +1,8 @@
 import { DynamoDBRecord } from 'aws-lambda';
 
 import { Billable, CompanyProfile, Invoice } from './common/contracts';
-import { ErrorCode } from './exceptions/error-code.enum';
+import { Either } from './common/either';
+import { ContextAwareException } from './exceptions/context-aware.exception';
 import { CompanyFacade } from './facades/company.facade';
 import { EasybillFacade } from './facades/easybill.facade';
 import { PersistenceFacade } from './facades/persistence.facade';
@@ -22,35 +23,19 @@ export class BillableHandler {
     private persistenceFacade: PersistenceFacade,
   ) { }
 
-  async handle(record: DynamoDBRecord) {
-    const data = await (
+  async handle(record: DynamoDBRecord): Promise<Either<ContextAwareException, null>> {
+    return (
       await (
-        await this.validateEligibility({ record })
-          .bind((ctx) => this.toBillable(ctx))
-          .bindAsync((ctx) => this.retrieveCompanyProfile(ctx))
-      ).bindAsync((ctx) => this.createInvoice(ctx))
-    ).bindAsync((ctx) => this.saveEasybillId(ctx));
-
-    // We need to handle the bad scenarios
-    if (data.isLeft()) {
-      const error = data.getLeft();
-      // We have a special case here, where we return left from eligibility
-      // checking. We do not consider this as error, but more architectural decision
-      // and therefore we will only log an info for the future generation
-      // of hopefully not only AI-programmers
-      if (error.errorCode === ErrorCode.CanSkip) {
-        console.log('skipping');
-        return;
-      }
-
-      console.error('error', JSON.stringify(data.getLeft()));
-    }
-
-    console.log('processed');
+        await (
+          await this.validateEligibility({ record })
+            .bind((ctx) => this.toBillable(ctx))
+            .bindAsync((ctx) => this.retrieveCompanyProfile(ctx))
+        ).bindAsync((ctx) => this.createInvoice(ctx))
+      ).bindAsync((ctx) => this.saveEasybillId(ctx))
+    ).mapRight(() => null);
   }
 
   private async saveEasybillId(ctx: Context) {
-    // TODO: Figure out what we get back from the dynamodb update
     return (
       await this.persistenceFacade.markAsCreated(ctx.billable!, ctx.invoice!)
     ).mapRight(() => ctx);
