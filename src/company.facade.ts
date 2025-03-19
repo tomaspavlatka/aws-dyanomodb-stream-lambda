@@ -1,6 +1,6 @@
-import { Either } from "./either";
-import { CompanyNotFoundException } from "./exceptions/company-not-found.exception";
-import { ContextAwareException } from "./exceptions/context-aware.exception";
+import { Either } from './either';
+import { CompanyNotFoundException } from './exceptions/company-not-found.exception';
+import { ContextAwareException } from './exceptions/context-aware.exception';
 
 export class CompanyFacade {
   constructor(private profiles: CompanyProfile[]) {}

@@ -22,7 +22,7 @@ type Payable = {
 type Invoice = {
   id: string;
   customer_id: string;
-  type: "INVOICE";
+  type: 'INVOICE';
   items: InvoiceItem[];
 };
 

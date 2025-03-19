@@ -1,10 +1,10 @@
-import { DynamoDBRecord } from "aws-lambda";
-import { isEligible } from "./validator";
-import { toBillable as mapperToBillable } from "./mapper";
-import { CompanyFacade } from "./company.facade";
-import { EasybillFacade } from "./easybill.facade";
-import { PersistenceFacade } from "./persistence.facade";
-import { ErrorCode } from "./exceptions/error-code.enum";
+import { DynamoDBRecord } from 'aws-lambda';
+import { isEligible } from './validator';
+import { toBillable as mapperToBillable } from './mapper';
+import { CompanyFacade } from './company.facade';
+import { EasybillFacade } from './easybill.facade';
+import { PersistenceFacade } from './persistence.facade';
+import { ErrorCode } from './exceptions/error-code.enum';
 
 type Context = {
   record: DynamoDBRecord;
@@ -37,14 +37,14 @@ export class BillableHandler {
       // and therefore we will only log an info for the future generation
       // of hopefully not only AI-programmers
       if (error.errorCode === ErrorCode.CanSkip) {
-        console.log("skipping");
+        console.log('skipping');
         return;
       }
 
-      console.error("error", JSON.stringify(data.getLeft()));
+      console.error('error', JSON.stringify(data.getLeft()));
     }
 
-    console.log("processed");
+    console.log('processed');
   }
 
   private async saveEasybillId(ctx: Context) {

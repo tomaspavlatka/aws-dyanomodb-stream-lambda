@@ -3,7 +3,7 @@ import axios, {
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
-} from "axios";
+} from 'axios';
 
 export class ApiClient {
   private client: AxiosInstance;
@@ -18,7 +18,7 @@ export class ApiClient {
 
   async request<T>(
     url: string,
-    method: "GET" | "POST" | "PUT" | "DELETE",
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE',
     data?: any,
   ): Promise<T> {
     const response: AxiosResponse<T> = await this.client({

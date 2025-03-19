@@ -1,13 +1,13 @@
-import { AxiosHeaders } from "axios";
-import { ApiClient } from "./api.client";
-import { Config } from "./config";
-import { EasybillFacade } from "./easybill.facade";
-import { Either } from "./either";
-import { ContextAwareException } from "./exceptions/context-aware.exception";
-import { CompanyFacade } from "./company.facade";
-import { BillableHandler } from "./billable.handler";
-import { PersistenceFacade } from "./persistence.facade";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { AxiosHeaders } from 'axios';
+import { ApiClient } from './api.client';
+import { Config } from './config';
+import { EasybillFacade } from './easybill.facade';
+import { Either } from './either';
+import { ContextAwareException } from './exceptions/context-aware.exception';
+import { CompanyFacade } from './company.facade';
+import { BillableHandler } from './billable.handler';
+import { PersistenceFacade } from './persistence.facade';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 
 type EasybillConfig = {
   baseUrl: string;
@@ -31,8 +31,8 @@ export class Facilitator {
   }
 
   private getEasybillConfig(): Either<ContextAwareException, EasybillConfig> {
-    return Config.get("EASYBILL_BASE_URL").bind((baseUrl) =>
-      Config.get("EASYBILL_AUTH_TOKEN").mapRight((authToken) => ({
+    return Config.get('EASYBILL_BASE_URL').bind((baseUrl) =>
+      Config.get('EASYBILL_AUTH_TOKEN').mapRight((authToken) => ({
         authToken,
         baseUrl,
       })),
@@ -44,8 +44,8 @@ export class Facilitator {
     // pull this data from the company service API
     const profiles: CompanyProfile[] = [];
     profiles.push({
-      id: "customer_01",
-      easybillCustomerId: "2322507260",
+      id: 'customer_01',
+      easybillCustomerId: '2322507260',
     });
 
     return Either.right(new CompanyFacade(profiles));
@@ -66,8 +66,8 @@ export class Facilitator {
     ContextAwareException,
     PersistenceConfig
   > {
-    return Config.get("PERSISTENCE_REGION").bind((region) =>
-      Config.get("PERSISTENCE_TABLE_NAME").mapRight((tableName) => ({
+    return Config.get('PERSISTENCE_REGION').bind((region) =>
+      Config.get('PERSISTENCE_TABLE_NAME').mapRight((tableName) => ({
         region,
         tableName,
       })),

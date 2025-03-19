@@ -1,7 +1,7 @@
-import { DynamoDBRecord } from "aws-lambda";
-import { Either } from "./either";
-import { ContextAwareException } from "./exceptions/context-aware.exception";
-import { MissingValueException } from "./exceptions/missing-value.exception";
+import { DynamoDBRecord } from 'aws-lambda';
+import { Either } from './either';
+import { ContextAwareException } from './exceptions/context-aware.exception';
+import { MissingValueException } from './exceptions/missing-value.exception';
 
 export const toBillable = (
   record: DynamoDBRecord,
@@ -9,7 +9,7 @@ export const toBillable = (
   const id = record.dynamodb?.NewImage?.id.S;
   if (!id) {
     throw Either.left(
-      MissingValueException.create("id", JSON.stringify(record.dynamodb!)),
+      MissingValueException.create('id', JSON.stringify(record.dynamodb!)),
     );
   }
 
@@ -17,7 +17,7 @@ export const toBillable = (
   if (!companyId) {
     throw Either.left(
       MissingValueException.create(
-        "company_id",
+        'company_id',
         JSON.stringify(record.dynamodb!),
       ),
     );
@@ -26,11 +26,11 @@ export const toBillable = (
   const payload = record.dynamodb?.NewImage?.payload.S;
   if (!payload) {
     throw Either.left(
-      MissingValueException.create("payable", JSON.stringify(record.dynamodb!)),
+      MissingValueException.create('payable', JSON.stringify(record.dynamodb!)),
     );
   }
 
   const payable: Payable[] = JSON.parse(payload);
 
-  return Either.right({ id, companyId, payable, externalId: "" });
+  return Either.right({ id, companyId, payable, externalId: '' });
 };

@@ -1,5 +1,5 @@
-import { ErrorCode } from "./error-code.enum";
-import { HttpStatusCode } from "./http-status-code.enum";
+import { ErrorCode } from './error-code.enum';
+import { HttpStatusCode } from './http-status-code.enum';
 
 export class ContextAwareException extends Error {
   readonly context?: object;
