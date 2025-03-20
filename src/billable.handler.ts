@@ -6,8 +6,8 @@ import { ContextAwareException } from './exceptions/context-aware.exception';
 import { CompanyFacade } from './facades/company.facade';
 import { EasybillFacade } from './facades/easybill.facade';
 import { PersistenceFacade } from './facades/persistence.facade';
-import { toBillable as mapperToBillable } from './mapper';
-import { isEligible } from './validator';
+import { Validator } from './validator';
+import { Mapper } from './mapper';
 
 type Context = {
   billable?: Billable;
@@ -59,13 +59,13 @@ export class BillableHandler {
   }
 
   private toBillable(ctx: Context) {
-    return mapperToBillable(ctx.record).mapRight((billable) => ({
+    return Mapper.toBillable(ctx.record).mapRight((billable) => ({
       ...ctx,
       billable,
     }));
   }
 
   private validateEligibility(ctx: Context) {
-    return isEligible(ctx.record).mapRight(() => ctx);
+    return Validator.isEligible(ctx.record).mapRight(() => ctx);
   }
 }

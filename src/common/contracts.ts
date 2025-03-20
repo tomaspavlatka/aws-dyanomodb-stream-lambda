@@ -34,3 +34,5 @@ export type InvoiceItem = {
   quantity: number;
   single_price_net: number;
 };
+
+export type InvoiceDraft = Omit<Invoice, 'id'>;

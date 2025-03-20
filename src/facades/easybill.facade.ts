@@ -1,12 +1,8 @@
-import { Billable, CompanyProfile, Invoice } from '../common/contracts';
+import { Billable, CompanyProfile, Invoice, InvoiceDraft } from '../common/contracts';
 import { Either } from '../common/either';
 import { ContextAwareException } from '../exceptions/context-aware.exception';
 import { ApiClient } from '../infra/api.client';
-
-type InvoiceDraft = Omit<Invoice, 'id'>;
-
-// TODO: See what VAT we need to apply
-const DEFAULT_VAT_PERCENT = 0;
+import { Mapper } from '../mapper';
 
 export class EasybillFacade {
   constructor(private readonly apiClient: ApiClient) {}
@@ -15,7 +11,7 @@ export class EasybillFacade {
     company: CompanyProfile,
     billable: Billable,
   ): Promise<Either<ContextAwareException, Invoice>> {
-    return this.getDraft(company, billable).bindAsync(async (draft) =>
+    return Mapper.toInvoiceDraft(company, billable).bindAsync(async (draft) =>
       this.doCreateInvoice(draft),
     );
   }
@@ -31,21 +27,5 @@ export class EasybillFacade {
     );
 
     return Either.right(invoice);
-  }
-
-  private getDraft(
-    company: CompanyProfile,
-    billable: Billable,
-  ): Either<ContextAwareException, InvoiceDraft> {
-    return Either.right({
-      customer_id: company.easybillCustomerId,
-      type: 'INVOICE',
-      items: billable.payable.map((payable) => ({
-        description: payable.type,
-        quantity: payable.quantity,
-        single_price_net: payable.price * 100,
-        vat_percent: DEFAULT_VAT_PERCENT,
-      })),
-    });
   }
 }
